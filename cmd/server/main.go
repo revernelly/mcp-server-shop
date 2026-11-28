@@ -4,7 +4,9 @@ import (
 	"os"
 
 	"github.com/revernelly/mcp-server-shop/config"
+	"github.com/revernelly/mcp-server-shop/internal/client"
 	"github.com/revernelly/mcp-server-shop/internal/mcp"
+	"github.com/revernelly/mcp-server-shop/internal/tools/products"
 	"github.com/sirupsen/logrus"
 )
 
@@ -33,9 +35,11 @@ func main() {
 		"auth_token_configured": config.AuthToken != "",
 	}).Info("Starting MCP E-commerce Server")
 
-	// restClient := client.NewRestClient(config.APIURL, config.AuthToken, logger)
+	restClient := client.NewRestClient(config.APIURL, config.AuthToken, logger)
 
 	toolRegistry := mcp.NewRegistry(logger)
+
+	products.NewProductToolset(toolRegistry, restClient, logger)
 
 	logger.WithField("tool_count", len(toolRegistry.ListTools())).Info("Registered tools")
 
