@@ -6,6 +6,7 @@ import (
 	"github.com/revernelly/mcp-server-shop/config"
 	"github.com/revernelly/mcp-server-shop/internal/client"
 	"github.com/revernelly/mcp-server-shop/internal/mcp"
+	"github.com/revernelly/mcp-server-shop/internal/tools/cart"
 	"github.com/revernelly/mcp-server-shop/internal/tools/products"
 	"github.com/sirupsen/logrus"
 )
@@ -40,6 +41,7 @@ func main() {
 	toolRegistry := mcp.NewRegistry(logger)
 
 	products.NewProductToolset(toolRegistry, restClient, logger)
+	cart.NewCartToolset(toolRegistry, restClient, logger)
 
 	logger.WithField("tool_count", len(toolRegistry.ListTools())).Info("Registered tools")
 
